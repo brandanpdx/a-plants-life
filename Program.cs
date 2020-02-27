@@ -4,6 +4,39 @@ using System.Threading;
 
 public class Program
 {
+    public static string[] plantAscii = {@"
+         ,
+     /\^/`\
+    | \/   |
+    | |    |
+    \ \    /
+     '\\//'
+       ||
+       ||
+       ||
+       ||  ,
+   |\  ||  |\
+   | | ||  | |
+   | | || / /
+    \ \||/ /
+     `\\//`
+    ^^^^^^^^",@"
+            ,
+        /\^/`\
+       | \/   |
+       | |    |
+       \ \    /
+       '\\//'
+         //
+        //
+       ||
+       ||  ,
+   |\  ||  |\
+   | | ||  | |
+   | | || / /
+    \ \||/ /
+     `\\//`
+    ^^^^^^^^"};
   public static void Main()
   {
     Thread ta = new Thread(new ThreadStart(DecrementPlants));
@@ -24,69 +57,64 @@ public class Program
         if (keyInfo.Key == ConsoleKey.W) WaterPlant();
         else if (keyInfo.Key == ConsoleKey.F) FeedPlant();
         else if (keyInfo.Key == ConsoleKey.S) OpenBlinds();
-        else if (keyInfo.Key == ConsoleKey.Q) Environment.Exit(0);
-        else break;
+        else if (keyInfo.Key == ConsoleKey.Q) Environment.Exit(0);  
       }
     }
   }
 
   public static void DecrementPlants()
   {
+    int plantIndex = 0;
     bool alive = true;
     while(alive)
     {
       Console.Clear();
+      Console.WriteLine(plantAscii[plantIndex]);
+      if(plantIndex == 0)
+      {
+        plantIndex = 1;
+      }
+      else
+      {
+        plantIndex = 0;
+      }
       Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
 
-      Drought();
-      WindStorm();
-      CloudyWeather();
+      Plant.Drought();
+      Plant.WindStorm();
+      Plant.CloudyWeather();
 
       if(Plant.WaterLevel <= 0 || Plant.SunLevel <= 0 || Plant.FoodLevel <= 0)
       {
+        Console.Clear();
+        Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
         alive = false;
         Console.WriteLine("Your Plant has died. You have a brown thumb...");
+        Environment.Exit(0);
       }
-      Thread.Sleep(3000);
+      Thread.Sleep(1000);
     }
   }
 
 // Good Actions
   public static void WaterPlant()
   {
-    Plant.WaterLevel += 10; 
+    Plant.WaterPlant();
     Console.Clear();
     Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
   }
 
   public static void OpenBlinds()
   {
-    Plant.SunLevel += 10;
+    Plant.SunPlant();
     Console.Clear();
     Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
   }
 
   public static void FeedPlant()
   {
-    Plant.FoodLevel += 10;
+    Plant.FeedPlant();
     Console.Clear();
     Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
-  }
-
-  // Bad Actions
-
-  public static void Drought()
-  {
-    Plant.WaterLevel -= 5;
-  }
-
-  public static void WindStorm()
-  {
-    Plant.FoodLevel -= 5;
-  }
-
-  public static void CloudyWeather()
-  {
-    Plant.SunLevel -= 5;
   }
 }
