@@ -36,6 +36,22 @@ public class Program
    | | || / /
     \ \||/ /
      `\\//`
+    ^^^^^^^^", @"
+
+             
+         __^_^_
+        / \/\  \  ___________________
+        | |  \ / |                   |
+        \ \    / |      OH YOU!      |
+        '\\//'   |                   |
+          //     |  -----------------
+         //      / /
+        //       /
+   |\  ||   __
+   | | ||  / \|
+   | | || / /
+    \ \||/ /
+     `\\//`
     ^^^^^^^^"};
   public static void Main()
   {
@@ -54,9 +70,9 @@ public class Program
       if (Console.KeyAvailable)
       {
         ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-        if (keyInfo.Key == ConsoleKey.W) WaterPlant();
-        else if (keyInfo.Key == ConsoleKey.F) FeedPlant();
-        else if (keyInfo.Key == ConsoleKey.S) OpenBlinds();
+        if (keyInfo.Key == ConsoleKey.W) HelpPlant("water");
+        else if (keyInfo.Key == ConsoleKey.F) HelpPlant("feed");
+        else if (keyInfo.Key == ConsoleKey.S) HelpPlant("sun");
         else if (keyInfo.Key == ConsoleKey.Q) Environment.Exit(0);  
       }
     }
@@ -64,19 +80,19 @@ public class Program
 
   public static void DecrementPlants()
   {
-    int plantIndex = 0;
+    Plant.PlantIndex = 0;
     bool alive = true;
     while(alive)
     {
       Console.Clear();
-      Console.WriteLine(plantAscii[plantIndex]);
-      if(plantIndex == 0)
+      Console.WriteLine(plantAscii[Plant.PlantIndex]);
+      if(Plant.PlantIndex < 2)
       {
-        plantIndex = 1;
+        Plant.PlantIndex++;
       }
       else
       {
-        plantIndex = 0;
+        Plant.PlantIndex = 0;
       }
       Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
 
@@ -97,24 +113,22 @@ public class Program
   }
 
 // Good Actions
-  public static void WaterPlant()
+  public static void HelpPlant(string action)
   {
-    Plant.WaterPlant();
+    if(action == "water")
+    {
+      Plant.WaterPlant();
+    }
+    else if(action == "feed")
+    {
+      Plant.FeedPlant();
+    }
+    else if(action == "sun")
+    {
+      Plant.SunPlant();
+    }
     Console.Clear();
-    Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
-  }
-
-  public static void OpenBlinds()
-  {
-    Plant.SunPlant();
-    Console.Clear();
-    Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
-  }
-
-  public static void FeedPlant()
-  {
-    Plant.FeedPlant();
-    Console.Clear();
+    Console.WriteLine(plantAscii[Plant.PlantIndex]);
     Console.WriteLine($"Plant Stats:\nFood Level [f]: {Plant.FoodLevel}\nWater Level [w]: {Plant.WaterLevel}\nSun Level [s]: {Plant.SunLevel}\ntype [q] to quit.");
   }
 }
