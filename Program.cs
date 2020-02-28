@@ -5,6 +5,22 @@ using System.Threading;
 public class Program
 {
     public static string[] plantAscii = {@"
+      ,
+   /\^'/\
+  | \/   |
+  | |> < |
+  \ \ o /
+  '\\//'
+     \\
+      \\
+       ||
+       ||  ,
+   |\  ||  |\
+   | | ||  | |
+   | | || / /
+    \ \||/ /
+     `\\//`
+    ^^^^^^^^",@"
          ,
      /\^/`\
     | \/   |
@@ -86,7 +102,7 @@ public class Program
     {
       Console.Clear();
       Console.WriteLine(plantAscii[Plant.PlantIndex]);
-      if(Plant.PlantIndex < 2)
+      if(Plant.PlantIndex < 3)
       {
         Plant.PlantIndex++;
       }
